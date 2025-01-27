@@ -9,13 +9,13 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 A Flutter plugin to implement iOS SiriKit Media Intents support.
                        DESC
-  s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
-  s.source           = { :path => '.' }
+  s.homepage         = 'https://github.com/nickshoe'
+  s.license          = { :type => 'MIT', :file => '../LICENSE' }
+  s.author           = { 'Nicolò Scarpa' => 'nicolo.scarpa@gmail.com' }
+  s.source           = { :http => 'https://github.com/nickshoe/sirikit_media_intents' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '14.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
