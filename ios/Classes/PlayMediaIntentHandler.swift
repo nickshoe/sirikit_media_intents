@@ -16,7 +16,7 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
         self.application = application
         self.plugin = plugin
     }
-
+	
     public func resolveMediaItems(
         for intent: INPlayMediaIntent,
         with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) ->
