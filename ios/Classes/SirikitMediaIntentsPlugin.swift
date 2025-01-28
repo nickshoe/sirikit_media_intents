@@ -76,3 +76,4 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
 enum SirikitMediaIntentsPluginError: Error {
     case channelIsNil(String)
 }
+
