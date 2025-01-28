@@ -8,18 +8,22 @@ import Foundation
 import Intents
 import SwiftUI
 
-class PlayMediaIntentHandler : NSObject, INPlayMediaIntentHandling {
+public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
     let application: UIApplication
     let plugin: SirikitMediaIntentsPlugin
-    
+
     init(application: UIApplication, plugin: SirikitMediaIntentsPlugin) {
         self.application = application
         self.plugin = plugin
     }
-    
-    func resolveMediaItems(for intent: INPlayMediaIntent, with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) -> Void) {
+
+    public func resolveMediaItems(
+        for intent: INPlayMediaIntent,
+        with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) ->
+            Void
+    ) {
         var pluginResult = plugin.resolveMediaItems()
-        
+
         var result = INPlayMediaMediaItemResolutionResult.unsupported()
 
         if let mediaSearch = intent.mediaSearch {
@@ -41,11 +45,14 @@ class PlayMediaIntentHandler : NSObject, INPlayMediaIntentHandling {
 
         completion([result])
     }
-    
-    func handle(intent: INPlayMediaIntent, completion: @escaping (INPlayMediaIntentResponse) -> Void) {
-        
+
+    public func handle(
+        intent: INPlayMediaIntent,
+        completion: @escaping (INPlayMediaIntentResponse) -> Void
+    ) {
+
         // TODO: handle the play request
-        
+
         // To put the app in foreground after handling the play request
         // if application.applicationState == .background {
         //     // .continueInApp -> The system should launch the app in the foreground to play the media.
@@ -53,10 +60,9 @@ class PlayMediaIntentHandler : NSObject, INPlayMediaIntentHandling {
         //
         //     return
         // }
-        
+
         // .success -> The app is playing the media.
         completion(INPlayMediaIntentResponse(code: .success, userActivity: nil))
     }
-    
-    
+
 }
