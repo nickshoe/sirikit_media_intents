@@ -1,4 +1,5 @@
 import Flutter
+import Intents
 import UIKit
 
 public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
@@ -39,8 +40,9 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
         }
     }
 
-    // TODO: pass the intent relevant data to the Flutter counterpart
-    public func resolveMediaItems(completion: @escaping (_: Any?) -> Void)
+    public func resolveMediaItems(
+        mediaSearch: INMediaSearch, completion: @escaping (_: Any?) -> Void
+    )
         throws
     {
         guard channel != nil else {
@@ -48,19 +50,22 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
                 "channel should not be nil at this point")
         }
 
+        // TODO: pass mediaSearch relevant data to the Flutter counterpart (use pigeon)
         // send data to Flutter method and relay the response to completion handler
         _channel!.invokeMethod(
             "resolveMediaItems", arguments: [:],
             result: completion)
     }
 
-    // TODO: pass the intent relevant data to the Flutter counterpart
-    public func playMediaItems(completion: @escaping (_: Any?) -> Void) throws {
+    public func playMediaItems(
+        mediaItems: [INMediaItem], completion: @escaping (_: Any?) -> Void
+    ) throws {
         guard channel != nil else {
             throw SirikitMediaIntentsPluginError.channelIsNil(
                 "channel should not be nil at this point")
         }
 
+        // TODO: pass mediaItems to the Flutter counterpart (use pigeon)
         // send data to Flutter method and relay the response to completion handler
         _channel!.invokeMethod(
             "playMediaItems", arguments: [:],
