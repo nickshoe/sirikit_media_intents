@@ -3,6 +3,7 @@ import UIKit
 
 public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
     public static var instance: SirikitMediaIntentsPlugin?
+    public static let CHANNEL_NAME = "sirikit_media_intents"
 
     private var _channel: FlutterMethodChannel?
     public var channel: FlutterMethodChannel? {
@@ -22,7 +23,7 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
     private func initChannel(binaryMessenger: FlutterBinaryMessenger) {
         if _channel == nil {
             _channel = FlutterMethodChannel(
-                name: "sirikit_media_intents",
+                name: SirikitMediaIntentsPlugin.CHANNEL_NAME,
                 binaryMessenger: binaryMessenger)
         }
     }
@@ -46,7 +47,7 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
      */
     public func resolveMediaItems() -> Any {
         // TODO: send data to Flutter method and relay the response to completion handler
-        let result = _channel?.invokeMethod(
+        var result = _channel?.invokeMethod(
             "resolveMediaItemsId", arguments: [:])
 
         return result
