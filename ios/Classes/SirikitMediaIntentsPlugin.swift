@@ -2,78 +2,108 @@ import Flutter
 import Intents
 import UIKit
 
-public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
+public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin,
+    IOSSirikitMediaIntentsApi
+{
     public static var instance: SirikitMediaIntentsPlugin?
     public static let CHANNEL_NAME = "sirikit_media_intents"
 
-    private var _channel: FlutterMethodChannel?
-    public var channel: FlutterMethodChannel? {
-        return _channel
+    private let flutterApi: IOSSirikitMediaIntentsFlutterApi
+
+    init(
+        flutterApi: IOSSirikitMediaIntentsFlutterApi
+    ) {
+        self.flutterApi = flutterApi
     }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let messenger = registrar.messenger()
 
-        instance = SirikitMediaIntentsPlugin()
+        let flutterApi = IOSSirikitMediaIntentsFlutterApi(
+            binaryMessenger: messenger)
 
-        instance?.initChannel(binaryMessenger: messenger)
+        instance = SirikitMediaIntentsPlugin(flutterApi: flutterApi)
 
-        registrar.addMethodCallDelegate(instance!, channel: instance!.channel!)
-    }
+        IOSSirikitMediaIntentsApiSetup.setUp(
+            binaryMessenger: messenger, api: instance)
 
-    private func initChannel(binaryMessenger: FlutterBinaryMessenger) {
-        if _channel == nil {
-            _channel = FlutterMethodChannel(
-                name: SirikitMediaIntentsPlugin.CHANNEL_NAME,
-                binaryMessenger: binaryMessenger)
-        }
+        registrar.addApplicationDelegate(instance!)
     }
 
     public func handle(
         _ call: FlutterMethodCall, result: @escaping FlutterResult
     ) {
-        switch call.method {
-        case "getPlatformVersion":  // TODO: remove
-            result("iOS " + UIDevice.current.systemVersion)
-        default:
-            result(FlutterMethodNotImplemented)
-        }
+        result(FlutterMethodNotImplemented)
     }
 
     public func resolveMediaItems(
-        mediaSearch: INMediaSearch, completion: @escaping (_: Any?) -> Void
-    )
-        throws
-    {
-        guard channel != nil else {
-            throw SirikitMediaIntentsPluginError.channelIsNil(
-                "channel should not be nil at this point")
-        }
+        mediaSearch: INMediaSearch,
+        completion: @escaping ([INMediaItem]) -> Void
+    ) {
+        let mediaItemType = MediaItemType(rawValue: 0)
+        let flutterMediaSearch = MediaSearch(
+            mediaIdentifier: mediaSearch.mediaIdentifier,
+            mediaType: mediaItemType!,
+            mediaName: mediaSearch.mediaName,
+            artistName: mediaSearch.artistName,
+            albumName: mediaSearch.albumName,
+            genreNames: mediaSearch.genreNames,
+            moodNames: mediaSearch.moodNames
+        )
 
-        // TODO: pass mediaSearch relevant data to the Flutter counterpart (use pigeon)
         // send data to Flutter method and relay the response to completion handler
-        _channel!.invokeMethod(
-            "resolveMediaItems", arguments: [:],
-            result: completion)
+        flutterApi.resolveMediaItems(
+            mediaSearch: flutterMediaSearch
+        ) { result in
+            do {
+                // TODO: build the result object based on Flutter's returned data (success or failure)
+
+                // TODO: unmarshall Flutter's app returned media items or error
+                
+                let flutterMediaItems = try result.get()
+                let mediaItems = flutterMediaItems.map { flutterMediaItem in
+                    return INMediaItem(
+                        identifier: flutterMediaItem.identifier,
+                        title: flutterMediaItem.title,
+                        type: INMediaItemType.song,  // TODO: unmarshall flutterMediaItem.type
+                        artwork: nil,  // TODO: ?
+                        artist: flutterMediaItem.artist
+                    )
+                }
+
+                completion(mediaItems)
+            } catch {
+                completion([])  // TODO: handle error here
+            }
+        }
     }
 
     public func playMediaItems(
-        mediaItems: [INMediaItem], completion: @escaping (_: Any?) -> Void
-    ) throws {
-        guard channel != nil else {
-            throw SirikitMediaIntentsPluginError.channelIsNil(
-                "channel should not be nil at this point")
+        mediaItems: [INMediaItem], completion: @escaping () -> Void
+    ) {
+        let flutterMediaItems = mediaItems.map { mediaItem in
+            let type = MediaItemType(rawValue: mediaItem.type.rawValue)
+
+            return MediaItem(
+                identifier: mediaItem.identifier!,
+                title: mediaItem.title!,
+                type: type!,
+                artist: mediaItem.artist!
+            )
         }
 
-        // TODO: pass mediaItems to the Flutter counterpart (use pigeon)
         // send data to Flutter method and relay the response to completion handler
-        _channel!.invokeMethod(
-            "playMediaItems", arguments: [:],
-            result: completion)
+        flutterApi.playMediaItems(
+            mediaItems: flutterMediaItems) { result in
+                // TODO: build the result object based on Flutter's returned data (success or failure)
+
+                // TODO: unmarshall Flutter's app returned media items or error
+                
+                completion()
+            }
     }
 }
 
 enum SirikitMediaIntentsPluginError: Error {
     case channelIsNil(String)
 }
-

@@ -24,39 +24,13 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
     ) {
         if let mediaSearch = intent.mediaSearch {
             // TODO: is there a swift equivalent for async/await?
-            do {
-                try plugin.resolveMediaItems(mediaSearch: mediaSearch) {
-                    mediaItems in
-                    // TODO: build the result object based on Flutter's returned data (success or failure)
+            plugin.resolveMediaItems(mediaSearch: mediaSearch) {
+                mediaItems in
 
-                    // TODO: unmarshall Flutter's app returned media items or error
-                    let mediaItem = INMediaItem(
-                        identifier: "<track_id>",
-                        title: "<track_title>",
-                        type: INMediaItemType.song,
-                        artwork: nil,
-                        artist: "<track_artists>"
-                    )
+                let result = INPlayMediaMediaItemResolutionResult.successes(
+                    with: mediaItems)
 
-                    let result = INPlayMediaMediaItemResolutionResult.success(
-                        with: mediaItem)
-
-                    completion([result])
-                }
-            } catch SirikitMediaIntentsPluginError.channelIsNil(
-                let errorMessage)
-            {
-                // TODO: refactor
-
-                // TODO: return unsupported reason?
-                let result = INPlayMediaMediaItemResolutionResult.unsupported()
-
-                completion([result])
-            } catch {
-                // TODO: refactor
-                let result = INPlayMediaMediaItemResolutionResult.unsupported()
-
-                completion([result])
+                completion(result)
             }
 
             return
@@ -73,29 +47,20 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
         completion: @escaping (INPlayMediaIntentResponse) -> Void
     ) {
         if let mediaItems = intent.mediaItems {
-            do {
-                // TODO: send mediaItems to Flutter method
-                try plugin.playMediaItems(mediaItems: mediaItems) { _ in
-                    // TODO: receive a param from the Flutter app for deciding if to put the app in foreground or not (defaults to no)
-                    // To put the app in foreground after handling the play request
-                    // if application.applicationState == .background {
-                    //     // .continueInApp -> The system should launch the app in the foreground to play the media.
-                    //     completion(INPlayMediaIntentResponse(code: .continueInApp, userActivity: nil))
-                    //
-                    //     return
-                    // }
+            plugin.playMediaItems(mediaItems: mediaItems) {
+                // TODO: receive a param from the Flutter app for deciding if to put the app in foreground or not (defaults to no)
+                // To put the app in foreground after handling the play request
+                // if application.applicationState == .background {
+                //     // .continueInApp -> The system should launch the app in the foreground to play the media.
+                //     completion(INPlayMediaIntentResponse(code: .continueInApp, userActivity: nil))
+                //
+                //     return
+                // }
 
-                    // .success -> The app is playing the media.
-                    completion(
-                        INPlayMediaIntentResponse(
-                            code: .success, userActivity: nil))
-                }
-            } catch {
-                // TODO: handle channelIsNil error?
-                let result = INPlayMediaIntentResponse(
-                    code: .failure, userActivity: nil)
-
-                completion(result)
+                // .success -> The app is playing the media.
+                completion(
+                    INPlayMediaIntentResponse(
+                        code: .success, userActivity: nil))
             }
 
             return

@@ -1,5 +1,7 @@
-abstract class MediaIntentsHandler {
-  List<String> resolveMediaItems(String query);
+import 'package:sirikit_media_intents/messages.g.dart';
 
-  void playMediaItems(List<String> mediaItems);
+abstract class MediaIntentsHandler {
+  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch);
+
+  void playMediaItems(List<MediaItem> mediaItems);
 }

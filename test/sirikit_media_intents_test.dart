@@ -1,16 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sirikit_media_intents/sirikit_media_intents.dart';
-import 'package:sirikit_media_intents/sirikit_media_intents_platform_interface.dart';
-import 'package:sirikit_media_intents/sirikit_media_intents_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:sirikit_media_intents/messages.g.dart';
+import 'package:sirikit_media_intents/sirikit_media_intents_method_channel.dart';
+import 'package:sirikit_media_intents/sirikit_media_intents_platform_interface.dart';
 import 'package:sirikit_media_intents/types/media_intents_handler.dart';
 
 class MockSirikitMediaIntentsPlatform
     with MockPlatformInterfaceMixin
     implements SirikitMediaIntentsPlatform {
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -26,15 +23,6 @@ void main() {
 
   test('$MethodChannelSirikitMediaIntents is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelSirikitMediaIntents>());
-  });
-
-  test('getPlatformVersion', () async {
-    SirikitMediaIntents sirikitMediaIntentsPlugin = SirikitMediaIntents();
-    MockSirikitMediaIntentsPlatform fakePlatform =
-        MockSirikitMediaIntentsPlatform();
-    SirikitMediaIntentsPlatform.instance = fakePlatform;
-
-    expect(await sirikitMediaIntentsPlugin.getPlatformVersion(), '42');
   });
 
   test(
@@ -56,12 +44,12 @@ class ExtendedSirikitMediaIntentsPlatform extends SirikitMediaIntentsPlatform {}
 
 class ExtendedMediaIntentsHandler implements MediaIntentsHandler {
   @override
-  void playMediaItems(List<String> mediaItems) {
+  void playMediaItems(List<MediaItem> mediaItems) {
     // TODO: implement playMediaItems
   }
 
   @override
-  List<String> resolveMediaItems(String query) {
+  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) {
     // TODO: implement resolveMediaItems
     throw UnimplementedError();
   }

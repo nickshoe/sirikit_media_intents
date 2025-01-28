@@ -25,10 +25,6 @@ abstract class SirikitMediaIntentsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
-
   /// Initializes this plugin.
   ///
   /// Call this once before any further interaction with the plugin.

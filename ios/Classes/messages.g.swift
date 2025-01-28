@@ -68,7 +68,7 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   return value as! T?
 }
 
-enum INMediaItemType: Int {
+enum MediaItemType: Int {
   case unknown = 0
   case song = 1
   case album = 2
@@ -93,9 +93,9 @@ enum INMediaItemType: Int {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct INMediaSearch {
+struct MediaSearch {
   var mediaIdentifier: String? = nil
-  var mediaType: INMediaItemType
+  var mediaType: MediaItemType
   var mediaName: String? = nil
   var artistName: String? = nil
   var albumName: String? = nil
@@ -104,16 +104,16 @@ struct INMediaSearch {
 
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  static func fromList(_ pigeonVar_list: [Any?]) -> INMediaSearch? {
+  static func fromList(_ pigeonVar_list: [Any?]) -> MediaSearch? {
     let mediaIdentifier: String? = nilOrValue(pigeonVar_list[0])
-    let mediaType = pigeonVar_list[1] as! INMediaItemType
+    let mediaType = pigeonVar_list[1] as! MediaItemType
     let mediaName: String? = nilOrValue(pigeonVar_list[2])
     let artistName: String? = nilOrValue(pigeonVar_list[3])
     let albumName: String? = nilOrValue(pigeonVar_list[4])
     let genreNames: [String]? = nilOrValue(pigeonVar_list[5])
     let moodNames: [String]? = nilOrValue(pigeonVar_list[6])
 
-    return INMediaSearch(
+    return MediaSearch(
       mediaIdentifier: mediaIdentifier,
       mediaType: mediaType,
       mediaName: mediaName,
@@ -137,27 +137,24 @@ struct INMediaSearch {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct INMediaItem {
+struct MediaItem {
   var identifier: String
   var title: String
-  var type: INMediaItemType
-  var artwork: INImage
+  var type: MediaItemType
   var artist: String
 
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  static func fromList(_ pigeonVar_list: [Any?]) -> INMediaItem? {
+  static func fromList(_ pigeonVar_list: [Any?]) -> MediaItem? {
     let identifier = pigeonVar_list[0] as! String
     let title = pigeonVar_list[1] as! String
-    let type = pigeonVar_list[2] as! INMediaItemType
-    let artwork = pigeonVar_list[3] as! INImage
-    let artist = pigeonVar_list[4] as! String
+    let type = pigeonVar_list[2] as! MediaItemType
+    let artist = pigeonVar_list[3] as! String
 
-    return INMediaItem(
+    return MediaItem(
       identifier: identifier,
       title: title,
       type: type,
-      artwork: artwork,
       artist: artist
     )
   }
@@ -166,40 +163,7 @@ struct INMediaItem {
       identifier,
       title,
       type,
-      artwork,
       artist,
-    ]
-  }
-}
-
-/// Generated class from Pigeon that represents data sent in messages.
-struct INImage {
-  var url: String
-  var width: Double
-  var height: Double
-  var value: Int64
-
-
-  // swift-format-ignore: AlwaysUseLowerCamelCase
-  static func fromList(_ pigeonVar_list: [Any?]) -> INImage? {
-    let url = pigeonVar_list[0] as! String
-    let width = pigeonVar_list[1] as! Double
-    let height = pigeonVar_list[2] as! Double
-    let value = pigeonVar_list[3] as! Int64
-
-    return INImage(
-      url: url,
-      width: width,
-      height: height,
-      value: value
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      url,
-      width,
-      height,
-      value,
     ]
   }
 }
@@ -210,15 +174,13 @@ private class MessagesPigeonCodecReader: FlutterStandardReader {
     case 129:
       let enumResultAsInt: Int? = nilOrValue(self.readValue() as! Int?)
       if let enumResultAsInt = enumResultAsInt {
-        return INMediaItemType(rawValue: enumResultAsInt)
+        return MediaItemType(rawValue: enumResultAsInt)
       }
       return nil
     case 130:
-      return INMediaSearch.fromList(self.readValue() as! [Any?])
+      return MediaSearch.fromList(self.readValue() as! [Any?])
     case 131:
-      return INMediaItem.fromList(self.readValue() as! [Any?])
-    case 132:
-      return INImage.fromList(self.readValue() as! [Any?])
+      return MediaItem.fromList(self.readValue() as! [Any?])
     default:
       return super.readValue(ofType: type)
     }
@@ -227,17 +189,14 @@ private class MessagesPigeonCodecReader: FlutterStandardReader {
 
 private class MessagesPigeonCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? INMediaItemType {
+    if let value = value as? MediaItemType {
       super.writeByte(129)
       super.writeValue(value.rawValue)
-    } else if let value = value as? INMediaSearch {
+    } else if let value = value as? MediaSearch {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? INMediaItem {
+    } else if let value = value as? MediaItem {
       super.writeByte(131)
-      super.writeValue(value.toList())
-    } else if let value = value as? INImage {
-      super.writeByte(132)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -261,8 +220,8 @@ class MessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 
 /// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.
 protocol IOSSirikitMediaIntentsFlutterApiProtocol {
-  func resolveMediaItems(mediaSearch mediaSearchArg: INMediaSearch, completion: @escaping (Result<[INMediaItem], PigeonError>) -> Void)
-  func playMediaItems(mediaItems mediaItemsArg: [INMediaItem], completion: @escaping (Result<Void, PigeonError>) -> Void)
+  func resolveMediaItems(mediaSearch mediaSearchArg: MediaSearch, completion: @escaping (Result<[MediaItem], PigeonError>) -> Void)
+  func playMediaItems(mediaItems mediaItemsArg: [MediaItem], completion: @escaping (Result<Void, PigeonError>) -> Void)
 }
 class IOSSirikitMediaIntentsFlutterApi: IOSSirikitMediaIntentsFlutterApiProtocol {
   private let binaryMessenger: FlutterBinaryMessenger
@@ -274,7 +233,7 @@ class IOSSirikitMediaIntentsFlutterApi: IOSSirikitMediaIntentsFlutterApiProtocol
   var codec: MessagesPigeonCodec {
     return MessagesPigeonCodec.shared
   }
-  func resolveMediaItems(mediaSearch mediaSearchArg: INMediaSearch, completion: @escaping (Result<[INMediaItem], PigeonError>) -> Void) {
+  func resolveMediaItems(mediaSearch mediaSearchArg: MediaSearch, completion: @escaping (Result<[MediaItem], PigeonError>) -> Void) {
     let channelName: String = "dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems\(messageChannelSuffix)"
     let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([mediaSearchArg] as [Any?]) { response in
@@ -290,12 +249,12 @@ class IOSSirikitMediaIntentsFlutterApi: IOSSirikitMediaIntentsFlutterApiProtocol
       } else if listResponse[0] == nil {
         completion(.failure(PigeonError(code: "null-error", message: "Flutter api returned null value for non-null return value.", details: "")))
       } else {
-        let result = listResponse[0] as! [INMediaItem]
+        let result = listResponse[0] as! [MediaItem]
         completion(.success(result))
       }
     }
   }
-  func playMediaItems(mediaItems mediaItemsArg: [INMediaItem], completion: @escaping (Result<Void, PigeonError>) -> Void) {
+  func playMediaItems(mediaItems mediaItemsArg: [MediaItem], completion: @escaping (Result<Void, PigeonError>) -> Void) {
     let channelName: String = "dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems\(messageChannelSuffix)"
     let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([mediaItemsArg] as [Any?]) { response in

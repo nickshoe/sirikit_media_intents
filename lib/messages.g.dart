@@ -25,7 +25,7 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   return <Object?>[error.code, error.message, error.details];
 }
 
-enum INMediaItemType {
+enum MediaItemType {
   unknown,
   song,
   album,
@@ -49,8 +49,8 @@ enum INMediaItemType {
   news,
 }
 
-class INMediaSearch {
-  INMediaSearch({
+class MediaSearch {
+  MediaSearch({
     this.mediaIdentifier,
     required this.mediaType,
     this.mediaName,
@@ -62,7 +62,7 @@ class INMediaSearch {
 
   String? mediaIdentifier;
 
-  INMediaItemType mediaType;
+  MediaItemType mediaType;
 
   String? mediaName;
 
@@ -86,11 +86,11 @@ class INMediaSearch {
     ];
   }
 
-  static INMediaSearch decode(Object result) {
+  static MediaSearch decode(Object result) {
     result as List<Object?>;
-    return INMediaSearch(
+    return MediaSearch(
       mediaIdentifier: result[0] as String?,
-      mediaType: result[1]! as INMediaItemType,
+      mediaType: result[1]! as MediaItemType,
       mediaName: result[2] as String?,
       artistName: result[3] as String?,
       albumName: result[4] as String?,
@@ -100,12 +100,11 @@ class INMediaSearch {
   }
 }
 
-class INMediaItem {
-  INMediaItem({
+class MediaItem {
+  MediaItem({
     required this.identifier,
     required this.title,
     required this.type,
-    required this.artwork,
     required this.artist,
   });
 
@@ -113,9 +112,7 @@ class INMediaItem {
 
   String title;
 
-  INMediaItemType type;
-
-  INImage artwork;
+  MediaItemType type;
 
   String artist;
 
@@ -124,55 +121,17 @@ class INMediaItem {
       identifier,
       title,
       type,
-      artwork,
       artist,
     ];
   }
 
-  static INMediaItem decode(Object result) {
+  static MediaItem decode(Object result) {
     result as List<Object?>;
-    return INMediaItem(
+    return MediaItem(
       identifier: result[0]! as String,
       title: result[1]! as String,
-      type: result[2]! as INMediaItemType,
-      artwork: result[3]! as INImage,
-      artist: result[4]! as String,
-    );
-  }
-}
-
-class INImage {
-  INImage({
-    required this.url,
-    required this.width,
-    required this.height,
-    required this.value,
-  });
-
-  String url;
-
-  double width;
-
-  double height;
-
-  int value;
-
-  Object encode() {
-    return <Object?>[
-      url,
-      width,
-      height,
-      value,
-    ];
-  }
-
-  static INImage decode(Object result) {
-    result as List<Object?>;
-    return INImage(
-      url: result[0]! as String,
-      width: result[1]! as double,
-      height: result[2]! as double,
-      value: result[3]! as int,
+      type: result[2]! as MediaItemType,
+      artist: result[3]! as String,
     );
   }
 }
@@ -185,17 +144,14 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is INMediaItemType) {
+    }    else if (value is MediaItemType) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is INMediaSearch) {
+    }    else if (value is MediaSearch) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    }    else if (value is INMediaItem) {
+    }    else if (value is MediaItem) {
       buffer.putUint8(131);
-      writeValue(buffer, value.encode());
-    }    else if (value is INImage) {
-      buffer.putUint8(132);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -207,13 +163,11 @@ class _PigeonCodec extends StandardMessageCodec {
     switch (type) {
       case 129: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : INMediaItemType.values[value];
+        return value == null ? null : MediaItemType.values[value];
       case 130: 
-        return INMediaSearch.decode(readValue(buffer)!);
+        return MediaSearch.decode(readValue(buffer)!);
       case 131: 
-        return INMediaItem.decode(readValue(buffer)!);
-      case 132: 
-        return INImage.decode(readValue(buffer)!);
+        return MediaItem.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -223,9 +177,9 @@ class _PigeonCodec extends StandardMessageCodec {
 abstract class IOSSirikitMediaIntentsFlutterApi {
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
-  List<INMediaItem> resolveMediaItems(INMediaSearch mediaSearch);
+  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch);
 
-  void playMediaItems(List<INMediaItem> mediaItems);
+  void playMediaItems(List<MediaItem> mediaItems);
 
   static void setUp(IOSSirikitMediaIntentsFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
@@ -240,11 +194,11 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
           assert(message != null,
           'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final INMediaSearch? arg_mediaSearch = (args[0] as INMediaSearch?);
+          final MediaSearch? arg_mediaSearch = (args[0] as MediaSearch?);
           assert(arg_mediaSearch != null,
-              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null, expected non-null INMediaSearch.');
+              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null, expected non-null MediaSearch.');
           try {
-            final List<INMediaItem> output = api.resolveMediaItems(arg_mediaSearch!);
+            final List<MediaItem> output = api.resolveMediaItems(arg_mediaSearch!);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -265,9 +219,9 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
           assert(message != null,
           'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final List<INMediaItem>? arg_mediaItems = (args[0] as List<Object?>?)?.cast<INMediaItem>();
+          final List<MediaItem>? arg_mediaItems = (args[0] as List<Object?>?)?.cast<MediaItem>();
           assert(arg_mediaItems != null,
-              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null, expected non-null List<INMediaItem>.');
+              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null, expected non-null List<MediaItem>.');
           try {
             api.playMediaItems(arg_mediaItems!);
             return wrapResponse(empty: true);
