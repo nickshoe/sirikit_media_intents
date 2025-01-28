@@ -12,7 +12,7 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
     let application: UIApplication
     let plugin: SirikitMediaIntentsPlugin
 
-    init(application: UIApplication, plugin: SirikitMediaIntentsPlugin) {
+    public init(application: UIApplication, plugin: SirikitMediaIntentsPlugin) {
         self.application = application
         self.plugin = plugin
     }
