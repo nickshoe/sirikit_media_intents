@@ -39,17 +39,35 @@ public class SirikitMediaIntentsPlugin: NSObject, FlutterPlugin {
         }
     }
 
-    /* TODO: implement
-     * - this class should act as a proxy between
-     *   the swift class implementing the INPlayMediaIntentHandling protocol
-     *   and the method channel
-     * - maybe this class should be used by the protocol implementing class
-     */
-    public func resolveMediaItems() -> Any {
-        // TODO: send data to Flutter method and relay the response to completion handler
-        var result = _channel?.invokeMethod(
-            "resolveMediaItemsId", arguments: [:])
+    // TODO: pass the intent relevant data to the Flutter counterpart
+    public func resolveMediaItems(completion: @escaping (_: Any?) -> Void)
+        throws
+    {
+        guard channel != nil else {
+            throw SirikitMediaIntentsPluginError.channelIsNil(
+                "channel should not be nil at this point")
+        }
 
-        return result
+        // send data to Flutter method and relay the response to completion handler
+        _channel!.invokeMethod(
+            "resolveMediaItems", arguments: [:],
+            result: completion)
     }
+
+    // TODO: pass the intent relevant data to the Flutter counterpart
+    public func playMediaItems(completion: @escaping (_: Any?) -> Void) throws {
+        guard channel != nil else {
+            throw SirikitMediaIntentsPluginError.channelIsNil(
+                "channel should not be nil at this point")
+        }
+
+        // send data to Flutter method and relay the response to completion handler
+        _channel!.invokeMethod(
+            "playMediaItems", arguments: [:],
+            result: completion)
+    }
+}
+
+enum SirikitMediaIntentsPluginError: Error {
+    case channelIsNil(String)
 }

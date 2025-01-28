@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sirikit_media_intents/sirikit_media_intents.dart';
+import 'package:sirikit_media_intents/types/media_intents_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +24,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+    _sirikitMediaIntentsPlugin.initialize(ExampleMediaIntentsHandler());
+
     initPlatformState();
   }
 
@@ -31,8 +36,8 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _sirikitMediaIntentsPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _sirikitMediaIntentsPlugin.getPlatformVersion() ??
+          'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -59,5 +64,17 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+}
+
+class ExampleMediaIntentsHandler extends MediaIntentsHandler {
+  @override
+  void playMediaItems(List<String> mediaItems) {
+    log("playing $mediaItems");
+  }
+
+  @override
+  List<String> resolveMediaItems(String query) {
+    return ["<mediaItemId>"];
   }
 }

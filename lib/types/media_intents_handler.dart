@@ -1,5 +1,5 @@
 abstract class MediaIntentsHandler {
-  String resolveMediaItemsId(String query);
+  List<String> resolveMediaItems(String query);
 
-  void playMediaItemById(String mediaItemId);
+  void playMediaItems(List<String> mediaItems);
 }

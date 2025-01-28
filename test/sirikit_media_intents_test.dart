@@ -56,14 +56,13 @@ class ExtendedSirikitMediaIntentsPlatform extends SirikitMediaIntentsPlatform {}
 
 class ExtendedMediaIntentsHandler implements MediaIntentsHandler {
   @override
-  void playMediaItemById(String mediaItemId) {
-    // TODO: implement playMediaItemById
-    throw UnimplementedError();
+  void playMediaItems(List<String> mediaItems) {
+    // TODO: implement playMediaItems
   }
 
   @override
-  String resolveMediaItemsId(String query) {
-    // TODO: implement resolveMediaItemsId
+  List<String> resolveMediaItems(String query) {
+    // TODO: implement resolveMediaItems
     throw UnimplementedError();
   }
 }

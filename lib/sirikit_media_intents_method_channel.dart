@@ -22,16 +22,18 @@ class MethodChannelSirikitMediaIntents extends SirikitMediaIntentsPlatform {
   Future<void> initialize(MediaIntentsHandler handler) async {
     methodChannel.setMethodCallHandler((MethodCall call) async {
       switch (call.method) {
-        case 'resolveMediaItemsId':
-          var query = call.arguments as String;
-          var mediaItemId = handler.resolveMediaItemsId(query);
+        case 'resolveMediaItems':
+          var mediaSearch = call.arguments as Map<dynamic, dynamic>;
+          var query = "<query>"; // TODO: read from mediaSearch
+          var mediaItemId = handler.resolveMediaItems(query);
 
           // TODO: handle media item not resolved (with PlatformException?)
 
           return mediaItemId;
-        case 'playMediaItemById':
-          var mediaItemId = call.arguments as String;
-          handler.playMediaItemById(mediaItemId);
+        case 'playMediaItems':
+          var mediaItems =
+              call.arguments as Map<dynamic, dynamic>; // TODO unmarshal
+          handler.playMediaItems([]);
 
           // TODO: handle play exception (with PlatformException?)
 
