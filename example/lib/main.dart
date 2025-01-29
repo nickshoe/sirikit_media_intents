@@ -205,7 +205,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ExampleMediaIntentsHandler extends MediaIntentsHandler {
+class ExampleMediaIntentsHandler implements MediaIntentsHandler {
   final _mediaSearchSubject = StreamController<MediaSearch>();
   Stream<MediaSearch> get mediaSearch$ => _mediaSearchSubject.stream;
 

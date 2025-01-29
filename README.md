@@ -204,3 +204,61 @@ As mentioned above, this plugin requires the iOS app to support multiple scenes;
 ```
 
 After doing that, you should be able to find the "Application Scene Manifest" entry in the "Custom iOS Target Properties" in Xcode.
+
+### Flutter app
+
+You need to create a class that implements/extends the `MediaIntentsHandler` interface/abstract class.
+
+The semantics of the `resolveMediaItems` and `playMediaItems` should appear pretty clear by the following example.
+
+```dart
+class ExampleMediaIntentsHandler extends MediaIntentsHandler {
+  @override
+  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) {
+    // TODO: call backend APIs to find media items matching the search criteria
+
+    var mediaItems = [
+      MediaItem(
+        identifier: '<song-1-id>',
+        title: 'Cool song 1',
+        type: MediaItemType.song,
+        artist: 'Cool Artist 1',
+      ),
+      MediaItem(
+        identifier: '<song-2-id>',
+        title: 'Cool song 2',
+        type: MediaItemType.song,
+        artist: 'Cool Artist 2',
+      )
+    ];
+
+    return mediaItems;
+  }
+
+  @override
+  void playMediaItems(List<MediaItem> mediaItems) {
+    log('Queuing ${mediaItems.length} songs');
+    // TODO: call App media services for queueing media items
+    
+    log('Playing ${mediaItems.first.identifier} - ${mediaItems.first.title}');
+    // TODO: call App media services for playing a media item
+  }
+}
+```
+
+In the code that initializes your app (the `main` method is a good candidate) you should add the following lines for initializing the plugin, by telling which class is going to handle the iOS Siri media intent callbacks:
+
+```dart
+void main() {
+  final sirikitMediaIntentsPlugin = SirikitMediaIntents();
+  final mediaIntentsHandler = ExampleMediaIntentsHandler();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  sirikitMediaIntentsPlugin.initialize(mediaIntentsHandler);
+
+  // ...
+
+  runApp(MyApp());
+}
+```
