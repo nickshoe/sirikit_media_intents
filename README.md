@@ -217,7 +217,7 @@ The semantics of the `resolveMediaItems` and `playMediaItems` should appear pret
 ```dart
 class ExampleMediaIntentsHandler extends MediaIntentsHandler {
   @override
-  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) {
+  Future<List<MediaItem>> resolveMediaItems(MediaSearch mediaSearch) async {
     // TODO: call backend APIs to find media items matching the search criteria
 
     var mediaItems = [
@@ -239,10 +239,10 @@ class ExampleMediaIntentsHandler extends MediaIntentsHandler {
   }
 
   @override
-  void playMediaItems(List<MediaItem> mediaItems) {
+  Future<void> playMediaItems(List<MediaItem> mediaItems) async {
     log('Queuing ${mediaItems.length} songs');
     // TODO: call App media services for queueing media items
-    
+
     log('Playing ${mediaItems.first.identifier} - ${mediaItems.first.title}');
     // TODO: call App media services for playing a media item
   }

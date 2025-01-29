@@ -15,3 +15,7 @@
 ## 0.1.2
 
 * Updates the README file
+
+## 0.2.0
+
+* Support for dart's async intent handling methods
