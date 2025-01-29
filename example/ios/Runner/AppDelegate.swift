@@ -24,18 +24,10 @@ import sirikit_media_intents
         GeneratedPluginRegistrant.register(with: flutterEngine)
 
         guard flutterEngine.hasPlugin(SirikitMediaIntentsPlugin.typeName) else {
-            SirikitMediaIntentsPlugin.logger.error("Plugin has not been registered")
-            
-            return super.application(
-                application, didFinishLaunchingWithOptions: launchOptions
-            )
+            preconditionFailure("Plugin has not been registered")
         }
         guard let pluginInstance = SirikitMediaIntentsPlugin.instance else {
-            SirikitMediaIntentsPlugin.logger.error("Plugin instance has not been created")
-            
-            return super.application(
-                application, didFinishLaunchingWithOptions: launchOptions
-            )
+            preconditionFailure("Plugin instance has not been created")
         }
 
         _playMediaIntentHandler = PlayMediaIntentHandler(

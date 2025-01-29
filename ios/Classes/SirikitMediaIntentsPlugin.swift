@@ -1,18 +1,12 @@
 import Flutter
 import Intents
 import UIKit
-import os
 
 public class SirikitMediaIntentsPlugin:
     NSObject,
     FlutterPlugin,
     IOSSirikitMediaIntentsApi
 {
-    public static let logger = Logger(
-        subsystem: Bundle.main.bundleIdentifier!,
-        category: SirikitMediaIntentsPlugin.typeName
-    )
-    
     public static var instance: SirikitMediaIntentsPlugin?
 
     private let flutterApi: IOSSirikitMediaIntentsFlutterApi
@@ -132,8 +126,4 @@ public class SirikitMediaIntentsPlugin:
     public static var typeName: String {
         return String(describing: self)
     }
-}
-
-public enum SirikitMediaIntentsPluginError: Error {
-    case instanceNotAvailable
 }

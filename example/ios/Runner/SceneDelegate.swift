@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Runner
-//
-//  Created by Nicolò Scarpa on 28/01/25.
-//
-
 import UIKit
 import sirikit_media_intents
 

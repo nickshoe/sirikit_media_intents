@@ -33,72 +33,169 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              Divider(),
-              StreamBuilder(
-                stream: mediaIntentsHandler.mediaSearch$,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text(
-                      'Ask Siri "Play something"',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    );
-                  }
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      color: Colors.black87,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'MediaIntentsHandler',
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            '.',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'resolveMediaItems',
+                            style: TextStyle(
+                              color: Colors.yellow,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    StreamBuilder(
+                      stream: mediaIntentsHandler.mediaSearch$,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text(
+                            'Ask Siri "Play something"',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          );
+                        }
 
-                  final mediaSearch = snapshot.data!;
-                  return Text(
-                    'Search by media name "${mediaSearch.mediaName}"',
-                  );
-                },
+                        final mediaSearch = snapshot.data!;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Search by media name ',
+                            ),
+                            Text(
+                              '"${mediaSearch.mediaName}"',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: mediaIntentsHandler.resolveMediaItems$,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text('Waiting for items to be resolved');
+                        }
+
+                        var resolvedMediaItemsWidgets = snapshot.data!
+                            .map(
+                              (mediaItem) => Text(
+                                '${mediaItem.identifier} - ${mediaItem.title}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                            .toList();
+
+                        return Column(
+                          children: [
+                            Text('Resolved media items'),
+                            ...resolvedMediaItemsWidgets
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              StreamBuilder(
-                stream: mediaIntentsHandler.resolveMediaItems$,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text('Waiting for items to be resolved');
-                  }
+              SizedBox(height: 16),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      color: Colors.black87,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'MediaIntentsHandler',
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            '.',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'playMediaItems',
+                            style: TextStyle(
+                              color: Colors.yellow,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    StreamBuilder(
+                      stream: mediaIntentsHandler.queuedMediaItems$,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text('Waiting for items to be queued');
+                        }
 
-                  var resolvedMediaItemsWidgets = snapshot.data!
-                      .map(
-                        (mediaItem) => Text(
-                          '${mediaItem.identifier} - ${mediaItem.title} by ${mediaItem.artist}',
-                        ),
-                      )
-                      .toList();
+                        final mediaItems = snapshot.data!;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Total items queued: ',
+                            ),
+                            Text(
+                              '${mediaItems.length}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: mediaIntentsHandler.currentlyPlayingMediaItem$,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text('Waiting for an item to be played');
+                        }
 
-                  return Column(
-                    children: [
-                      Text('Resolved media items'),
-                      ...resolvedMediaItemsWidgets
-                    ],
-                  );
-                },
-              ),
-              Divider(),
-              StreamBuilder(
-                stream: mediaIntentsHandler.queuedMediaItems$,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text('Waiting for items to be queued');
-                  }
-
-                  final mediaItems = snapshot.data!;
-                  return Text(
-                    'Queued ${mediaItems.length} items',
-                  );
-                },
-              ),
-              StreamBuilder(
-                stream: mediaIntentsHandler.currentlyPlayingMediaItem$,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text('Waiting for an item to be played');
-                  }
-
-                  final mediaItem = snapshot.data!;
-                  return Text(
-                    'Playing ${mediaItem.identifier} - ${mediaItem.title} by ${mediaItem.artist}',
-                  );
-                },
+                        final mediaItem = snapshot.data!;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Playing ',
+                            ),
+                            Text(
+                              '${mediaItem.identifier} - ${mediaItem.title}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -154,7 +251,7 @@ class ExampleMediaIntentsHandler extends MediaIntentsHandler {
     // TODO: call App media services for queueing media items
     _queuedMediaItemsSubject.add(mediaItems);
 
-    log('Playing ${mediaItems.first.title} by ${mediaItems.first.artist}');
+    log('Playing ${mediaItems.first.identifier} - ${mediaItems.first.title}');
     // TODO: call App media services for playing a media item
     _currentlyPlayingMediaItemSubject.add(mediaItems.first);
   }
