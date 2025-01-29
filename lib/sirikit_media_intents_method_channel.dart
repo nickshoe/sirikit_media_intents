@@ -6,6 +6,7 @@ import 'sirikit_media_intents_platform_interface.dart';
 
 /// An implementation of [SirikitMediaIntentsPlatform] that uses method channels.
 class MethodChannelSirikitMediaIntents extends SirikitMediaIntentsPlatform {
+  // ignore: unused_field
   final IOSSirikitMediaIntentsApi? _hostApi;
 
   MethodChannelSirikitMediaIntents({

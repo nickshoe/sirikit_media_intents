@@ -8,6 +8,7 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
+// ignore: unused_element
 PlatformException _createConnectionError(String channelName) {
   return PlatformException(
     code: 'channel-error',
@@ -15,7 +16,8 @@ PlatformException _createConnectionError(String channelName) {
   );
 }
 
-List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty = false}) {
+List<Object?> wrapResponse(
+    {Object? result, PlatformException? error, bool empty = false}) {
   if (empty) {
     return <Object?>[];
   }
@@ -136,7 +138,6 @@ class MediaItem {
   }
 }
 
-
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -144,13 +145,13 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is MediaItemType) {
+    } else if (value is MediaItemType) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is MediaSearch) {
+    } else if (value is MediaSearch) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    }    else if (value is MediaItem) {
+    } else if (value is MediaItem) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else {
@@ -161,12 +162,12 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 129: 
+      case 129:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : MediaItemType.values[value];
-      case 130: 
+      case 130:
         return MediaSearch.decode(readValue(buffer)!);
-      case 131: 
+      case 131:
         return MediaItem.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -181,45 +182,59 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
 
   void playMediaItems(List<MediaItem> mediaItems);
 
-  static void setUp(IOSSirikitMediaIntentsFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
-    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  static void setUp(
+    IOSSirikitMediaIntentsFlutterApi? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
+    messageChannelSuffix =
+        messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems$messageChannelSuffix', pigeonChannelCodec,
+      final BasicMessageChannel<
+          Object?> pigeonVar_channel = BasicMessageChannel<
+              Object?>(
+          'dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null.');
+              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final MediaSearch? arg_mediaSearch = (args[0] as MediaSearch?);
           assert(arg_mediaSearch != null,
               'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null, expected non-null MediaSearch.');
           try {
-            final List<MediaItem> output = api.resolveMediaItems(arg_mediaSearch!);
+            final List<MediaItem> output =
+                api.resolveMediaItems(arg_mediaSearch!);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+                error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems$messageChannelSuffix', pigeonChannelCodec,
+      final BasicMessageChannel<
+          Object?> pigeonVar_channel = BasicMessageChannel<
+              Object?>(
+          'dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null.');
+              'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final List<MediaItem>? arg_mediaItems = (args[0] as List<Object?>?)?.cast<MediaItem>();
+          final List<MediaItem>? arg_mediaItems =
+              (args[0] as List<Object?>?)?.cast<MediaItem>();
           assert(arg_mediaItems != null,
               'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null, expected non-null List<MediaItem>.');
           try {
@@ -227,8 +242,9 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+                error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
@@ -240,13 +256,14 @@ class IOSSirikitMediaIntentsApi {
   /// Constructor for [IOSSirikitMediaIntentsApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  IOSSirikitMediaIntentsApi({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
+  IOSSirikitMediaIntentsApi(
+      {BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
       : pigeonVar_binaryMessenger = binaryMessenger,
-        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+        pigeonVar_messageChannelSuffix =
+            messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
 
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
   final String pigeonVar_messageChannelSuffix;
-
 }
