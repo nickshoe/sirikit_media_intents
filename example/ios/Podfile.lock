@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  sirikit_media_intents: 7b4cdecf30004f578a1111c7c14ff6c6e86adbb8
+  sirikit_media_intents: 6409222a6249ea32d46787fef4f49b46a08b0f44
 
 PODFILE CHECKSUM: 1b50a4280f44a231b37f858aebc2a001225decec
 
