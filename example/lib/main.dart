@@ -43,17 +43,6 @@ class _MyAppState extends State<MyApp> {
 
 class ExampleMediaIntentsHandler extends MediaIntentsHandler {
   @override
-  void playMediaItems(List<MediaItem> mediaItems) {
-    final mediaItemToPlay = mediaItems.first;
-    final numOfMediaItemsToQueue = mediaItems.length - 1;
-
-    log('Playing ${mediaItemToPlay.title} by ${mediaItemToPlay.artist}');
-    log('Queuing other $numOfMediaItemsToQueue songs');
-
-    // TODO: call App media services
-  }
-
-  @override
   List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) {
     // TODO: call backend APIs
 
@@ -71,5 +60,16 @@ class ExampleMediaIntentsHandler extends MediaIntentsHandler {
         artist: 'Cool Artist 2',
       )
     ];
+  }
+
+  @override
+  void playMediaItems(List<MediaItem> mediaItems) {
+    final mediaItemToPlay = mediaItems.first;
+    final numOfMediaItemsToQueue = mediaItems.length - 1;
+
+    log('Playing ${mediaItemToPlay.title} by ${mediaItemToPlay.artist}');
+    log('Queuing other $numOfMediaItemsToQueue songs');
+
+    // TODO: call App media services
   }
 }

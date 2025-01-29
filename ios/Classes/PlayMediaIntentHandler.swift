@@ -1,9 +1,9 @@
 //
 //  PlayMediaIntentHandler.swift
-//  Pods
 //
 //  Created by Nicolò Scarpa on 28/01/25.
 //
+
 import Foundation
 import Intents
 import SwiftUI
@@ -19,8 +19,9 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
 
     public func resolveMediaItems(
         for intent: INPlayMediaIntent,
-        with completion: @escaping ([INPlayMediaMediaItemResolutionResult]) ->
-            Void
+        with completion: @escaping (
+            [INPlayMediaMediaItemResolutionResult]
+        ) -> Void
     ) {
         if let mediaSearch = intent.mediaSearch {
             // TODO: is there a swift equivalent for async/await?
@@ -28,7 +29,8 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
                 mediaItems in
 
                 let result = INPlayMediaMediaItemResolutionResult.successes(
-                    with: mediaItems)
+                    with: mediaItems
+                )
 
                 completion(result)
             }
@@ -36,7 +38,6 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
             return
         }
 
-        // TODO: refactor
         let result = INPlayMediaMediaItemResolutionResult.unsupported()
 
         completion([result])
@@ -48,27 +49,22 @@ public class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {
     ) {
         if let mediaItems = intent.mediaItems {
             plugin.playMediaItems(mediaItems: mediaItems) {
-                // TODO: receive a param from the Flutter app for deciding if to put the app in foreground or not (defaults to no)
-                // To put the app in foreground after handling the play request
-                // if application.applicationState == .background {
-                //     // .continueInApp -> The system should launch the app in the foreground to play the media.
-                //     completion(INPlayMediaIntentResponse(code: .continueInApp, userActivity: nil))
-                //
-                //     return
-                // }
 
-                // .success -> The app is playing the media.
                 completion(
                     INPlayMediaIntentResponse(
-                        code: .success, userActivity: nil))
+                        code: .success,  // .success -> The app is playing the media.
+                        userActivity: nil
+                    )
+                )
             }
 
             return
         }
 
-        // TODO: refactor
         let result = INPlayMediaIntentResponse(
-            code: .failure, userActivity: nil)
+            code: .failure,
+            userActivity: nil
+        )
 
         completion(result)
     }

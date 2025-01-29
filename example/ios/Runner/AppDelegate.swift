@@ -1,6 +1,6 @@
 import Flutter
-import UIKit
 import Intents
+import UIKit
 import sirikit_media_intents
 
 @main
@@ -20,18 +20,32 @@ import sirikit_media_intents
         didFinishLaunchingWithOptions launchOptions: [UIApplication
             .LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Runs the default Dart entrypoint with a default Flutter route.
         flutterEngine.run()
-        // Used to connect plugins (only if you have plugins with iOS platform code).
-        GeneratedPluginRegistrant.register(with: self.flutterEngine)
+        GeneratedPluginRegistrant.register(with: flutterEngine)
+
+        guard flutterEngine.hasPlugin(SirikitMediaIntentsPlugin.typeName) else {
+            SirikitMediaIntentsPlugin.logger.error("Plugin has not been registered")
+            
+            return super.application(
+                application, didFinishLaunchingWithOptions: launchOptions
+            )
+        }
+        guard let pluginInstance = SirikitMediaIntentsPlugin.instance else {
+            SirikitMediaIntentsPlugin.logger.error("Plugin instance has not been created")
+            
+            return super.application(
+                application, didFinishLaunchingWithOptions: launchOptions
+            )
+        }
 
         _playMediaIntentHandler = PlayMediaIntentHandler(
             application: application,
-            plugin: SirikitMediaIntentsPlugin.instance! // TODO: add assertion before
+            plugin: pluginInstance
         )
 
         return super.application(
-            application, didFinishLaunchingWithOptions: launchOptions)
+            application, didFinishLaunchingWithOptions: launchOptions
+        )
     }
 
     override func application(
