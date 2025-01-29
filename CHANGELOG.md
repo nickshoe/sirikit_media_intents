@@ -11,3 +11,7 @@
 ## 0.1.1
 
 * Updates the getting started guide, specifying that the plugin requires a minimun iOS deployment target of 14.0
+
+## 0.1.2
+
+* Updates the README file

@@ -11,6 +11,7 @@ A Flutter plugin to implement iOS SiriKit Media Intents support.
 
 > [!NOTE]
 > This plugin requires several modifications to the iOS generated project.
+
 To see the plugin in action just look at the example app, under `example` folder.
 
 ### iOS project
