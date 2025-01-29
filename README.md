@@ -115,7 +115,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 ```
 
-## Add Siri capablity
+#### Add Siri capablity
 
 Add the "Siri" capability to the iOS app.
 In Xcode: "Runner" target > "Signing & Capabilities" > "+ Capability" (top right button in the tab list) > Search for "Siri" and add it.
@@ -133,7 +133,7 @@ This will make the `Runner.entitlements` file look like the following example:
 </plist>
 ```
 
-## Info.plist
+#### Info.plist
 
 Add the `INPlayMediaIntent` intent to the supported intents of your app.
 In Xcode: "Runner" target > "General" > Scroll to the "Supported Intents" section > Click the "+" button and specify `INPlayMediaIntent` in the "Class Name" column.
@@ -203,6 +203,8 @@ After doing that, you should be able to find the "Application Scene Manifest" en
 
 ### Flutter app
 
+#### MediaIntentsHandler class
+
 You need to create a class that implements/extends the `MediaIntentsHandler` interface/abstract class.
 
 The semantics of the `resolveMediaItems` and `playMediaItems` should appear pretty clear by the following example.
@@ -241,6 +243,8 @@ class ExampleMediaIntentsHandler extends MediaIntentsHandler {
   }
 }
 ```
+
+#### Plugin initialization
 
 In the code that initializes your app (the `main` method is a good candidate) you should add the following lines for initializing the plugin, by telling which class is going to handle the iOS Siri media intent callbacks:
 
