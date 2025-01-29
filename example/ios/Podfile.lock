@@ -2,7 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - sirikit_media_intents (0.0.1):
+  - sirikit_media_intents (0.1.0):
     - Flutter
 
 DEPENDENCIES:
