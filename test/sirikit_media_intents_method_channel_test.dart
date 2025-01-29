@@ -5,6 +5,7 @@ import 'package:sirikit_media_intents/sirikit_media_intents_method_channel.dart'
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  // ignore: unused_local_variable
   MethodChannelSirikitMediaIntents platform =
       MethodChannelSirikitMediaIntents();
   const MethodChannel channel = MethodChannel('sirikit_media_intents');

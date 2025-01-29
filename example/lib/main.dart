@@ -222,7 +222,7 @@ class ExampleMediaIntentsHandler implements MediaIntentsHandler {
       _queuedMediaItemsSubject.stream;
 
   @override
-  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) {
+  Future<List<MediaItem>> resolveMediaItems(MediaSearch mediaSearch) async {
     _mediaSearchSubject.add(mediaSearch);
 
     // TODO: call backend APIs to find media items matching the search criteria
@@ -246,7 +246,7 @@ class ExampleMediaIntentsHandler implements MediaIntentsHandler {
   }
 
   @override
-  void playMediaItems(List<MediaItem> mediaItems) {
+  Future<void> playMediaItems(List<MediaItem> mediaItems) async {
     log('Queuing ${mediaItems.length} songs');
     // TODO: call App media services for queueing media items
     _queuedMediaItemsSubject.add(mediaItems);

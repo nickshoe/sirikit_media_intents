@@ -29,10 +29,10 @@ class _IOSSirikitMediaIntentsFlutterApi
   });
 
   @override
-  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch) =>
+  Future<List<MediaItem>> resolveMediaItems(MediaSearch mediaSearch) =>
       handler.resolveMediaItems(mediaSearch);
 
   @override
-  void playMediaItems(List<MediaItem> mediaItems) =>
+  Future<void> playMediaItems(List<MediaItem> mediaItems) =>
       handler.playMediaItems(mediaItems);
 }

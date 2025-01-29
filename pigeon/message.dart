@@ -64,8 +64,10 @@ enum MediaItemType {
 
 @FlutterApi()
 abstract class IOSSirikitMediaIntentsFlutterApi {
+  @async
   List<MediaItem> resolveMediaItems(MediaSearch mediaSearch);
 
+  @async
   void playMediaItems(List<MediaItem> mediaItems);
 }
 

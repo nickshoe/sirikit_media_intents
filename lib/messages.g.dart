@@ -178,9 +178,9 @@ class _PigeonCodec extends StandardMessageCodec {
 abstract class IOSSirikitMediaIntentsFlutterApi {
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
-  List<MediaItem> resolveMediaItems(MediaSearch mediaSearch);
+  Future<List<MediaItem>> resolveMediaItems(MediaSearch mediaSearch);
 
-  void playMediaItems(List<MediaItem> mediaItems);
+  Future<void> playMediaItems(List<MediaItem> mediaItems);
 
   static void setUp(
     IOSSirikitMediaIntentsFlutterApi? api, {
@@ -208,7 +208,7 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
               'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.resolveMediaItems was null, expected non-null MediaSearch.');
           try {
             final List<MediaItem> output =
-                api.resolveMediaItems(arg_mediaSearch!);
+                await api.resolveMediaItems(arg_mediaSearch!);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -238,7 +238,7 @@ abstract class IOSSirikitMediaIntentsFlutterApi {
           assert(arg_mediaItems != null,
               'Argument for dev.flutter.pigeon.sirikit_media_intents.IOSSirikitMediaIntentsFlutterApi.playMediaItems was null, expected non-null List<MediaItem>.');
           try {
-            api.playMediaItems(arg_mediaItems!);
+            await api.playMediaItems(arg_mediaItems!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
