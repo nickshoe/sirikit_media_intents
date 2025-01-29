@@ -7,3 +7,7 @@
 ## 0.1.1-dev.1
 
 * Specify that the package is a pre-release version
+
+## 0.1.1
+
+* Updates the getting started guide, specifying that the plugin requires a minimun iOS deployment target of 14.0

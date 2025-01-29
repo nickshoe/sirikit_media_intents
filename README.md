@@ -4,9 +4,13 @@ A Flutter plugin to implement iOS SiriKit Media Intents support.
 
 ## Getting Started
 
+> [!IMPORTANT]
+> This plugin requires a minimum iOS deployment target of 14.0.
+>
+> In Xcode, select the "Runner" target and put `14.0` in the "iOS" form, under "Minimum Deployments" section.
+
 > [!NOTE]
 > This plugin requires several modifications to the iOS generated project.
-
 To see the plugin in action just look at the example app, under `example` folder.
 
 ### iOS project
