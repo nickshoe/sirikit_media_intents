@@ -1,5 +1,6 @@
 import Flutter
 import Intents
+import IntentsUI
 import UIKit
 
 public class SirikitMediaIntentsPlugin:
@@ -94,16 +95,21 @@ public class SirikitMediaIntentsPlugin:
     }
 
     private func toMediaItem(flutterMediaItem: MediaItem) -> INMediaItem {
-        // TODO: unmarshall using flutterMediaItem.type
-        let type = INMediaItemType(rawValue: flutterMediaItem.type.rawValue)
+        let type = INMediaItemType(rawValue: flutterMediaItem.type.rawValue)!
 
-        // TODO: add support for artwork marshalling/unmarshalling
-        let artwork: INImage? = nil
+        var artwork: INImage? = nil
+        if flutterMediaItem.artwork != nil {
+            artwork = buildINImage(
+                urlString: flutterMediaItem.artwork!.url,
+                width: flutterMediaItem.artwork!.width,
+                height: flutterMediaItem.artwork!.height
+            )
+        }
 
         let mediaItem: INMediaItem = INMediaItem(
             identifier: flutterMediaItem.identifier,
             title: flutterMediaItem.title,
-            type: type!,
+            type: type,
             artwork: artwork,
             artist: flutterMediaItem.artist
         )
@@ -111,15 +117,42 @@ public class SirikitMediaIntentsPlugin:
         return mediaItem
     }
 
+    private func buildINImage(
+        urlString: String?,
+        width: Double?,
+        height: Double?
+    ) -> INImage? {
+        guard let urlString = urlString else {
+            return nil
+        }
+
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+
+        if width != nil && height != nil {
+            return INImage(
+                url: url,
+                width: width!,
+                height: height!
+            )
+        }
+        
+        return INImage(
+            url: url
+        )
+    }
+    
     private func toFlutterMediaItems(mediaItem: INMediaItem) -> MediaItem {
         let type = MediaItemType(rawValue: mediaItem.type.rawValue)
-
+        
         let flutterMediaItem: MediaItem = MediaItem(
             identifier: mediaItem.identifier!,
             title: mediaItem.title!,
             type: type!,
             artist: mediaItem.artist!
         )
+        
         return flutterMediaItem
     }
 

@@ -142,6 +142,7 @@ struct MediaItem {
   var title: String
   var type: MediaItemType
   var artist: String
+  var artwork: MediaItemImage? = nil
 
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
@@ -150,12 +151,14 @@ struct MediaItem {
     let title = pigeonVar_list[1] as! String
     let type = pigeonVar_list[2] as! MediaItemType
     let artist = pigeonVar_list[3] as! String
+    let artwork: MediaItemImage? = nilOrValue(pigeonVar_list[4])
 
     return MediaItem(
       identifier: identifier,
       title: title,
       type: type,
-      artist: artist
+      artist: artist,
+      artwork: artwork
     )
   }
   func toList() -> [Any?] {
@@ -164,6 +167,35 @@ struct MediaItem {
       title,
       type,
       artist,
+      artwork,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct MediaItemImage {
+  var url: String
+  var width: Double
+  var height: Double
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> MediaItemImage? {
+    let url = pigeonVar_list[0] as! String
+    let width = pigeonVar_list[1] as! Double
+    let height = pigeonVar_list[2] as! Double
+
+    return MediaItemImage(
+      url: url,
+      width: width,
+      height: height
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      url,
+      width,
+      height,
     ]
   }
 }
@@ -181,6 +213,8 @@ private class MessagesPigeonCodecReader: FlutterStandardReader {
       return MediaSearch.fromList(self.readValue() as! [Any?])
     case 131:
       return MediaItem.fromList(self.readValue() as! [Any?])
+    case 132:
+      return MediaItemImage.fromList(self.readValue() as! [Any?])
     default:
       return super.readValue(ofType: type)
     }
@@ -197,6 +231,9 @@ private class MessagesPigeonCodecWriter: FlutterStandardWriter {
       super.writeValue(value.toList())
     } else if let value = value as? MediaItem {
       super.writeByte(131)
+      super.writeValue(value.toList())
+    } else if let value = value as? MediaItemImage {
+      super.writeByte(132)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)

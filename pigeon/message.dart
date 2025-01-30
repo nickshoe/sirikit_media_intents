@@ -29,12 +29,26 @@ class MediaItem {
   final String title;
   final MediaItemType type;
   final String artist;
+  final MediaItemImage? artwork;
 
   const MediaItem({
     required this.identifier,
     required this.title,
     required this.type,
     required this.artist,
+    this.artwork,
+  });
+}
+
+class MediaItemImage {
+  final String url;
+  final double width;
+  final double height;
+
+  MediaItemImage({
+    required this.url,
+    required this.width,
+    required this.height,
   });
 }
 

@@ -231,12 +231,24 @@ class ExampleMediaIntentsHandler implements MediaIntentsHandler {
         identifier: '<song-1-id>',
         title: 'Cool song 1',
         type: MediaItemType.song,
+        artwork: MediaItemImage(
+          url:
+              'https://images.pexels.com/photos/9851222/pexels-photo-9851222.jpeg?auto=compress&cs=tinysrgb&w=180',
+          width: 180.0,
+          height: 180.0,
+        ),
         artist: 'Cool Artist 1',
       ),
       MediaItem(
         identifier: '<song-2-id>',
         title: 'Cool song 2',
         type: MediaItemType.song,
+        artwork: MediaItemImage(
+          url:
+              'https://images.pexels.com/photos/8834489/pexels-photo-8834489.jpeg?auto=compress&cs=tinysrgb&w=180',
+          width: 180.0,
+          height: 180.0,
+        ),
         artist: 'Cool Artist 2',
       )
     ];

@@ -108,6 +108,7 @@ class MediaItem {
     required this.title,
     required this.type,
     required this.artist,
+    this.artwork,
   });
 
   String identifier;
@@ -118,12 +119,15 @@ class MediaItem {
 
   String artist;
 
+  MediaItemImage? artwork;
+
   Object encode() {
     return <Object?>[
       identifier,
       title,
       type,
       artist,
+      artwork,
     ];
   }
 
@@ -134,6 +138,38 @@ class MediaItem {
       title: result[1]! as String,
       type: result[2]! as MediaItemType,
       artist: result[3]! as String,
+      artwork: result[4] as MediaItemImage?,
+    );
+  }
+}
+
+class MediaItemImage {
+  MediaItemImage({
+    required this.url,
+    required this.width,
+    required this.height,
+  });
+
+  String url;
+
+  double width;
+
+  double height;
+
+  Object encode() {
+    return <Object?>[
+      url,
+      width,
+      height,
+    ];
+  }
+
+  static MediaItemImage decode(Object result) {
+    result as List<Object?>;
+    return MediaItemImage(
+      url: result[0]! as String,
+      width: result[1]! as double,
+      height: result[2]! as double,
     );
   }
 }
@@ -154,6 +190,9 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is MediaItem) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
+    } else if (value is MediaItemImage) {
+      buffer.putUint8(132);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -169,6 +208,8 @@ class _PigeonCodec extends StandardMessageCodec {
         return MediaSearch.decode(readValue(buffer)!);
       case 131:
         return MediaItem.decode(readValue(buffer)!);
+      case 132:
+        return MediaItemImage.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
