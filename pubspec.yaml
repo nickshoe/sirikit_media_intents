@@ -1,6 +1,6 @@
 name: sirikit_media_intents
 description: "A Flutter plugin to implement iOS SiriKit Media Intents support."
-version: 0.2.0
+version: 0.3.0
 repository: https://github.com/nickshoe/sirikit_media_intents
 
 environment:

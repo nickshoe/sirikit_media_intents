@@ -19,3 +19,7 @@
 ## 0.2.0
 
 * Support for dart's async intent handling methods
+
+## 0.3.0
+
+* Media item artwork support by the intent's "resolve" phase.

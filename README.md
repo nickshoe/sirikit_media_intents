@@ -6,8 +6,6 @@ A Flutter plugin to implement iOS SiriKit Media Intents support.
 
 > [!IMPORTANT]
 > This plugin requires a minimum iOS deployment target of 14.0.
->
-> In Xcode, select the "Runner" target and put `14.0` in the "iOS" form, under "Minimum Deployments" section.
 
 > [!NOTE]
 > This plugin requires several modifications to the iOS generated project.
@@ -15,6 +13,10 @@ A Flutter plugin to implement iOS SiriKit Media Intents support.
 To see the plugin in action just look at the example app, under `example` folder.
 
 ### iOS project
+
+#### "Runner" target
+
+In Xcode, select the "Runner" target and put `14.0` in the "iOS" form, under "Minimum Deployments" section.
 
 #### AppDelegate.swift
 
@@ -225,12 +227,24 @@ class ExampleMediaIntentsHandler extends MediaIntentsHandler {
         identifier: '<song-1-id>',
         title: 'Cool song 1',
         type: MediaItemType.song,
+        artwork: MediaItemImage(
+          url:
+              'https://images.pexels.com/photos/9851222/pexels-photo-9851222.jpeg?auto=compress&cs=tinysrgb&w=180',
+          width: 180.0,
+          height: 180.0,
+        ),
         artist: 'Cool Artist 1',
       ),
       MediaItem(
         identifier: '<song-2-id>',
         title: 'Cool song 2',
         type: MediaItemType.song,
+        artwork: MediaItemImage(
+          url:
+              'https://images.pexels.com/photos/8834489/pexels-photo-8834489.jpeg?auto=compress&cs=tinysrgb&w=180',
+          width: 180.0,
+          height: 180.0,
+        ),
         artist: 'Cool Artist 2',
       )
     ];
