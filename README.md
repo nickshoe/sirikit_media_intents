@@ -1,6 +1,6 @@
 # sirikit_media_intents
 
-A Flutter plugin to implement iOS SiriKit Media Intents support.
+A plugin to implement iOS SiriKit Media Intents support in your Flutter app.
 
 ## Getting Started
 

@@ -23,3 +23,7 @@
 ## 0.3.0
 
 * Media item artwork support by the intent's "resolve" phase.
+
+# 0.3.1
+
+* `MediaIntentsHandler` abstract class methods documentation.
