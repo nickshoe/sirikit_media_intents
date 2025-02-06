@@ -5,7 +5,11 @@ import sirikit_media_intents
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-    private var _flutterEngine = FlutterEngine(name: "FlutterEngine")
+    private var _flutterEngine = FlutterEngine(
+        name: "FlutterEngine",
+        project: nil,
+        allowHeadlessExecution: true
+    )
     var flutterEngine: FlutterEngine {
         return _flutterEngine
     }
