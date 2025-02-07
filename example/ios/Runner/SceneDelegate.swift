@@ -2,10 +2,7 @@ import UIKit
 import sirikit_media_intents
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
-    
-    private var _flutterMethodChannel: FlutterMethodChannel?
     
     func scene(
         _ scene: UIScene,

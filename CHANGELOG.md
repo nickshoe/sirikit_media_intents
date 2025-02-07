@@ -27,3 +27,8 @@
 # 0.3.1
 
 * `MediaIntentsHandler` abstract class methods documentation.
+
+# 0.3.2
+
+* Refactor
+* Update guide for correctly setting minimum iOS supported version to 14.0 and for a better `FlutterEngine` instantiation in the `AppDelegate` class.

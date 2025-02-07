@@ -18,6 +18,8 @@ To see the plugin in action just look at the example app, under `example` folder
 
 In Xcode, select the "Runner" target and put `14.0` in the "iOS" form, under "Minimum Deployments" section.
 
+Open `ios/Flutter/AppframeworkInfo.plist` in your Flutter app and update the `MinimumOSVersion` value to `14.0`.
+
 #### AppDelegate.swift
 
 Replace (or, edit) the `AppDelegate.swift` file with the following content:
@@ -30,7 +32,11 @@ import sirikit_media_intents
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-    private var _flutterEngine = FlutterEngine(name: "FlutterEngine")
+    private var _flutterEngine = FlutterEngine(
+        name: "SharedFlutterEngine",
+        project: nil,
+        allowHeadlessExecution: true
+    )
     var flutterEngine: FlutterEngine {
         return _flutterEngine
     }
@@ -89,10 +95,7 @@ import UIKit
 import sirikit_media_intents
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
-    
-    private var _flutterMethodChannel: FlutterMethodChannel?
     
     func scene(
         _ scene: UIScene,
@@ -117,7 +120,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
-    
 }
 ```
 
