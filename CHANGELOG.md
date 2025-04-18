@@ -32,3 +32,7 @@
 
 * Refactor
 * Update guide for correctly setting minimum iOS supported version to 14.0 and for a better `FlutterEngine` instantiation in the `AppDelegate` class.
+
+# 0.3.3
+
+* Lower the minimum support Dart SDK version to 3.0.0.

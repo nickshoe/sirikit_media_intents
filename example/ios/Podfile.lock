@@ -2,7 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - sirikit_media_intents (0.3.1):
+  - sirikit_media_intents (0.3.3):
     - Flutter
 
 DEPENDENCIES:
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  sirikit_media_intents: 1cd216b7f51c37859e09d88ffe4490c158c1f789
+  sirikit_media_intents: 3932e9bf3866264893d61d148d0455f69ef1e44f
 
 PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38
 

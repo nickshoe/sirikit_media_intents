@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'sirikit_media_intents'
-  s.version          = '0.3.1'
+  s.version          = '0.3.3'
   s.summary          = 'A plugin to implement iOS SiriKit Media Intents support in your Flutter app.'
   s.description      = <<-DESC
 A plugin to implement iOS SiriKit Media Intents support in your Flutter app.
